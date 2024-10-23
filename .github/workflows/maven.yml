@@ -27,6 +27,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        servers: |
+           [
+            {
+              "id": "ossrh",
+              "username": "${{ secrets.OSSRH_USERNAME }}",
+              "password": "${{ secrets.OSSRH_TOKEN }}"
+            },
+            {
+              "id": "github",
+              "username": "${{ secrets.GIT_USERNAME }}",
+              "password": "${{ secrets.GIT_TOKEN }}"
+            }
+            ]
         server-id: ossrh
         server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
@@ -39,7 +52,7 @@ jobs:
     - name: View settings.xml
       run: cat /home/runner/.m2/settings.xml    
     - name: Build with Maven
-      run: mvn -B source:jar javadoc:jar deploy
+      run: mvn -B release:prepare release:perform deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}	  

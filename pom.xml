@@ -10,6 +10,7 @@
 	<url>https://github.com/ihepda/java-tech-debt</url>
 	<properties>
 		<maven.compiler.release>17</maven.compiler.release>
+		<project.scm.id>github</project.scm.id>
 	</properties>
 	<licenses>
 		<license>
