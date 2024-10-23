@@ -1,4 +1,4 @@
-package open.ihepda.techdebt.report;
+package io.github.ihepda.techdebt.report;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,9 +6,9 @@ import java.io.FileWriter;
 import java.util.Properties;
 import java.util.Set;
 
-import open.ihepda.techdebt.TechDebt;
-import open.ihepda.techdebt.TechDebtElement;
-import open.ihepda.techdebt.TechDebt.Severity;
+import io.github.ihepda.techdebt.TechDebt;
+import io.github.ihepda.techdebt.TechDebtElement;
+import io.github.ihepda.techdebt.TechDebt.Severity;
 
 public class SimpleReport extends AbstractReport {
 

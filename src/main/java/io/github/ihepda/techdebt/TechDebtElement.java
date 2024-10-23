@@ -1,4 +1,4 @@
-package open.ihepda.techdebt;
+package io.github.ihepda.techdebt;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
 
-import open.ihepda.techdebt.TechDebt.Severity;
+import io.github.ihepda.techdebt.TechDebt.Severity;
 
 public class TechDebtElement {
 	private TechDebt techDebt;

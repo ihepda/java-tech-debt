@@ -1,4 +1,4 @@
-package open.ihepda.techdebt;
+package io.github.ihepda.techdebt;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.FIELD;

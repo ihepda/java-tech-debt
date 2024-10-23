@@ -1,4 +1,4 @@
-package open.ihepda.techdebt;
+package io.github.ihepda.techdebt;
 
 import java.util.Objects;
 import java.util.Properties;
@@ -18,9 +18,9 @@ import javax.lang.model.element.TypeElement;
 
 import com.google.auto.service.AutoService;
 
-import open.ihepda.techdebt.report.SimpleReport;
-import open.ihepda.techdebt.report.SysoutReport;
-import open.ihepda.techdebt.report.TechDebtReport;
+import io.github.ihepda.techdebt.report.SimpleReport;
+import io.github.ihepda.techdebt.report.SysoutReport;
+import io.github.ihepda.techdebt.report.TechDebtReport;
 
 @SupportedAnnotationTypes(
 		{"open.ihepda.techdebt.TechDebt", "open.ihepda.techdebt.TechDebts"})

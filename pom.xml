@@ -2,12 +2,21 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>open.ihepda.techdebt</groupId>
+	<groupId>io.github.ihepda</groupId>
 	<artifactId>techdebt-processor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>A tool to mark technical debpt in code and to have a report</description>
+	<url>https://github.com/ihepda/java-tech-debt</url>
 	<properties>
 		<maven.compiler.release>17</maven.compiler.release>
 	</properties>
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.auto.service</groupId>
@@ -33,6 +42,15 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.6.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<distributionManagement>
@@ -45,5 +63,16 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 	</distributionManagement>
-
+	<developers>
+		<developer>
+			<id>ihepda</id>
+			<name>Claudio D'Angelo</name>
+			<email>ihepda@gmail.com</email>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:git://github.com/ihepda/java-tech-debt.git</connection>
+		<developerConnection>scm:git:ssh://github.com:ihepda/java-tech-debt.git</developerConnection>
+		<url>https://github.com/ihepda/java-tech-debt/tree/main</url>
+	</scm>
 </project>

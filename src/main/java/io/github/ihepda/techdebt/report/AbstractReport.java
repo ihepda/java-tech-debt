@@ -1,10 +1,10 @@
-package open.ihepda.techdebt.report;
+package io.github.ihepda.techdebt.report;
 
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
-import open.ihepda.techdebt.TechDebtElement;
+import io.github.ihepda.techdebt.TechDebtElement;
 
 public abstract class AbstractReport implements TechDebtReport {
 
