@@ -127,8 +127,8 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git://github.com/ihepda/java-tech-debt.git</connection>
-		<developerConnection>scm:git:git://github.com/ihepda/java-tech-debt.git</developerConnection>
+		<connection>scm:git:https://github.com/ihepda/java-tech-debt.git</connection>
+		<developerConnection>scm:git:git@github.com:ihepda/java-tech-debt.git</developerConnection>
 		<url>https://github.com/ihepda/java-tech-debt/tree/main</url>
 	</scm>
 </project>
