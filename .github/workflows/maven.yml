@@ -31,19 +31,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-        servers: |
-           [
-            {
-              "id": "ossrh",
-              "username": "${{ secrets.OSSRH_USERNAME }}",
-              "password": "${{ secrets.OSSRH_TOKEN }}"
-            }
-            ,
-            {
-              "id": "github",
-              "username": "actions@github.com",
-              "password": "${{ secrets.GITHUB_TOKEN }}"
-            }            ]
+        server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
+        server-username: "${{ secrets.OSSRH_USERNAME }}" # env variable for username in deploy
+        server-password: "${{ secrets.OSSRH_TOKEN }}" # env variable for token in deploy
     - name: Configure Git
       run: |
         git config user.email "actions@github.com"  
