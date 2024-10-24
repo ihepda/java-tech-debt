@@ -9,6 +9,7 @@
 	<properties>
 		<maven.compiler.release>17</maven.compiler.release>
 		<project.scm.id>github</project.scm.id>
+		<skip.publish>false</skip.publish>
 	</properties>
 	<licenses>
 		<license>
@@ -48,6 +49,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<publishingServerId>ossrh</publishingServerId>
+					<skipPublishing>${skip.publish}</skipPublishing>
 				</configuration>
 			</plugin>
 			<plugin>
