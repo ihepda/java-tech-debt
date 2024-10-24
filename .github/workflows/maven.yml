@@ -32,7 +32,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
         server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
-        server-username: MAVEN_USENAME
+        server-username: MAVEN_USERNAME
         server-password: MAVEN_PASSWORD
     - name: Configure Git
       run: |
@@ -47,7 +47,6 @@ jobs:
     - name: View settings.xml
       run: cat /home/runner/.m2/settings.xml    
     - name: Build with Maven
-      #run: mvn -B release:prepare release:perform deploy
       run: mvn -B deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
