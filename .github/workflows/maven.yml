@@ -37,10 +37,17 @@ jobs:
         git config user.name "GitHub Actions"
     - name: View settings.xml
       run: cat /home/runner/.m2/settings.xml    
+    - name: Import GPG key
+      run: |
+          echo "${{ secrets.MAVEN_GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "default-key $(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)" >> ~/.gnupg/gpg.conf
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "use-agent" >> ~/.gnupg/gpg.conf    
     - name: Build with Maven
-      run: mvn -B -Dgpg.skip=true release:prepare release:perform
+      run: mvn -B release:prepare release:perform
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
