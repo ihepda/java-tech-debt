@@ -53,16 +53,19 @@ public class TechDebtAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		if(roundEnv.processingOver() || disabled) return false;
-		TreeSet<TechDebtElement> elements = new TreeSet<>((element1, element2) ->  element1.getFullName().compareTo(element2.getFullName()));
+		TreeSet<TechDebtElement> elements = new TreeSet<>((element1, element2) ->  element1.hashCode() - element2.hashCode());
 		for (TypeElement annotation : annotations) {
 	        Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 	        for (Element element : annotatedElements) {
+	        	System.out.println("Element: " + element);
+	        	
 	        	TechDebts debts = element.getAnnotation(TechDebts.class);
+	        	System.out.println("TechDebts: " + debts);
 	        	TechDebt[] techDebts;
 	        	if(debts != null)
 	        		techDebts = debts.value();
 	        	else
-	        		techDebts = new TechDebt[] {element.getAnnotation(TechDebt.class)};
+	        		techDebts = element.getAnnotationsByType(TechDebt.class);
 	        	for (TechDebt techDebt : techDebts) {
 		        	TechDebtElement techDebtElement = new TechDebtElement(techDebt, element);
 		        	elements.add(techDebtElement);
