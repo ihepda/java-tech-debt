@@ -15,6 +15,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.util.Elements;
 
 import com.google.auto.service.AutoService;
 
@@ -23,9 +24,15 @@ import io.github.ihepda.techdebt.report.SysoutReport;
 import io.github.ihepda.techdebt.report.TechDebtReport;
 
 @SupportedAnnotationTypes(
-		{"open.ihepda.techdebt.TechDebt", "open.ihepda.techdebt.TechDebts"})
+		{"io.github.ihepda.techdebt.TechDebt", "io.github.ihepda.techdebt.TechDebts"})
 @SupportedOptions(
-		{TechDebtAnnotationProcessor.DISABLED_PROCESSOR, TechDebtReport.REPORT_IMPLEMENTATION})
+		{
+			TechDebtAnnotationProcessor.DISABLED_PROCESSOR
+			, TechDebtReport.REPORT_IMPLEMENTATION
+			, TechDebtReport.OUTPUT_DIRECTORY_PARAMETER
+			, TechDebtReport.OUTPUT_NAME_PARAMETER
+			, TechDebtReport.SEVERITY_ORDER_PARAMETER
+			})
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @AutoService(Processor.class)
 public class TechDebtAnnotationProcessor extends AbstractProcessor {
@@ -34,10 +41,6 @@ public class TechDebtAnnotationProcessor extends AbstractProcessor {
 	private boolean disabled = false;
 	private TechDebtReport reporter;
 	
-	@Override
-	public Set<String> getSupportedOptions() {
-		return super.getSupportedOptions();
-	}
 	
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {

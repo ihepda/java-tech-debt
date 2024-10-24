@@ -46,19 +46,22 @@ public class SimpleReport extends AbstractReport {
 			Severity currentSeverity = null;
 			for (TechDebtElement techDebtElement : elements) {
 				if(!this.isSeverityOrdered()) {
-					writer.append(techDebtElement.getElementKind().toString()).append(" ==> ");
+					writer.append('*').append(techDebtElement.getElementKind().toString()).append(" ==> ");
 					writer.append(techDebtElement.getFullName()).append('\n');
-					writer.append("Severity = " ).append(techDebtElement.getSeverity().toString()).append('\n');
-					writer.append("Comment = " ).append(techDebtElement.getComment()).append('\n');
+					writer.append('\t').append("Severity = " ).append(techDebtElement.getSeverity().toString()).append('\n');
 				} else {
 					if(currentSeverity != techDebtElement.getSeverity()) {
 						currentSeverity = techDebtElement.getSeverity();
-						writer.append("Severity = " ).append(techDebtElement.getSeverity().toString()).append('\n');
+						writer.append('*').append("Severity = " ).append(techDebtElement.getSeverity().toString()).append('\n');
 					}
-					writer.append(techDebtElement.getElementKind().toString()).append(" ==> ");
+					writer.append('\t').append(techDebtElement.getElementKind().toString()).append(" ==> ");
 					writer.append(techDebtElement.getFullName()).append('\n');
-					writer.append("Comment = " ).append(techDebtElement.getComment()).append('\n');
 				}
+				writer.append('\t').append("Type = " ).append(techDebtElement.getType()).append('\n');
+				writer.append('\t').append("Comment = " ).append(techDebtElement.getComment()).append('\n');
+				writer.append('\t').append("Author = " ).append(techDebtElement.getAuthor()).append('\n');
+				writer.append('\t').append("Date = " ).append(techDebtElement.getDate()).append('\n');
+				writer.append('\t').append("Effort = " ).append(techDebtElement.getEffort()).append('\n');
 			}
 			writer.flush();
 		} catch(Exception ex) {

@@ -1,24 +1,24 @@
 package io.github.ihepda.techdebt;
 
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PACKAGE;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
+import static java.lang.annotation.ElementType.*;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Repeatable(TechDebts.class)
-@Retention(SOURCE)
-@Target({ TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, PACKAGE })
+@Retention(RetentionPolicy.SOURCE)
+@Target(value={CONSTRUCTOR, FIELD, METHOD, PACKAGE, MODULE, PARAMETER, TYPE})
 public @interface TechDebt {
 
 	String comment();
-	Severity severity();
+	String author() default "";
+	String date() default "";
+	Severity severity() default Severity.MINOR;
+	Type type() default Type.FIX;
+	Effort effort() default Effort.MEDIUM;
+	
 	
 	public enum Severity {
 		TRIVIAL(-10),
@@ -35,5 +35,21 @@ public @interface TechDebt {
 			return priority;
 		}
 		
+	}
+	public enum Type {
+		FIX,
+		PERFORMANCE,
+		SECURITY,
+		MAINTAINABILITY,
+		REMOVE;
+	}
+	
+	public enum Effort {
+		MICRO,
+		SMALL,
+		MEDIUM,
+		LARGE,
+		HUGE,
+		MASSIVE
 	}
 }

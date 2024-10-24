@@ -32,7 +32,21 @@ public class TechDebtElement {
 		return this.techDebt.comment();
 	}
 	
+	public String getAuthor() {
+		return this.techDebt.author();
+	}
 	
+	public String getType() {
+		return this.techDebt.type().toString();
+	}
+	
+	public String getEffort() {
+		return this.techDebt.effort().toString();
+	}
+	
+	public String getDate() {
+		return this.techDebt.date();
+	}
 	
 	public ElementKind getElementKind() {
 		return this.element.getKind();
