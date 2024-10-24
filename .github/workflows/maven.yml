@@ -47,7 +47,8 @@ jobs:
     - name: View settings.xml
       run: cat /home/runner/.m2/settings.xml    
     - name: Build with Maven
-      run: mvn -B release:prepare release:perform deploy
+      #run: mvn -B release:prepare release:perform deploy
+      run: mvn -B deploy
       env:
         MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
         MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}	  
