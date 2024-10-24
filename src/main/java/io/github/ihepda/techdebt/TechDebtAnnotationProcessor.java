@@ -15,13 +15,13 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 
 import com.google.auto.service.AutoService;
 
 import io.github.ihepda.techdebt.report.SimpleReport;
 import io.github.ihepda.techdebt.report.SysoutReport;
 import io.github.ihepda.techdebt.report.TechDebtReport;
+import io.github.ihepda.techdebt.report.XmlReport;
 
 @SupportedAnnotationTypes(
 		{"io.github.ihepda.techdebt.TechDebt", "io.github.ihepda.techdebt.TechDebts"})
@@ -91,6 +91,8 @@ public class TechDebtAnnotationProcessor extends AbstractProcessor {
 			return new SysoutReport();
 		} else if(Objects.equals(implementationClassName, "simple")) {
 			return new SimpleReport();
+		} else if(Objects.equals(implementationClassName, "xml")) {
+			return new XmlReport();
 		} 
 		try {
 			return (TechDebtReport) Class.forName(implementationClassName).getDeclaredConstructor().newInstance();
