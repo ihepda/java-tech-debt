@@ -1,4 +1,4 @@
-package io.github.ihepda.techdebt.report;
+package io.github.ihepda.techdebt.processor.report;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,9 +7,13 @@ import java.util.Properties;
 import java.util.Set;
 
 import io.github.ihepda.techdebt.TechDebt;
-import io.github.ihepda.techdebt.TechDebtElement;
 import io.github.ihepda.techdebt.TechDebt.Severity;
+import io.github.ihepda.techdebt.processor.TechDebtElement;
 
+/**
+ * Simple report implementation that writes the technical debt elements to a
+ * file.
+ */
 public class SimpleReport extends AbstractReport {
 
 	private File output;

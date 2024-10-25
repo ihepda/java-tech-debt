@@ -1,4 +1,4 @@
-package io.github.ihepda.techdebt;
+package io.github.ihepda.techdebt.processor;
 
 import java.util.Objects;
 import java.util.Properties;
@@ -15,14 +15,23 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 
 import com.google.auto.service.AutoService;
 
-import io.github.ihepda.techdebt.report.SimpleReport;
-import io.github.ihepda.techdebt.report.SysoutReport;
-import io.github.ihepda.techdebt.report.TechDebtReport;
+import io.github.ihepda.techdebt.TechDebt;
+import io.github.ihepda.techdebt.TechDebts;
+import io.github.ihepda.techdebt.processor.report.SimpleReport;
+import io.github.ihepda.techdebt.processor.report.SysoutReport;
+import io.github.ihepda.techdebt.processor.report.TechDebtReport;
+import io.github.ihepda.techdebt.processor.report.XmlReport;
 
+/**
+ * This class is the main processor for the TechDebt annotations.
+ * It will process the annotations and generate a report.<br/>
+ * The report can be customized by the user by setting the options.<br/>
+ * The user can also disable the processor by setting the option techdebt.disabled to true.
+ * 
+ */
 @SupportedAnnotationTypes(
 		{"io.github.ihepda.techdebt.TechDebt", "io.github.ihepda.techdebt.TechDebts"})
 @SupportedOptions(
@@ -53,16 +62,19 @@ public class TechDebtAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		if(roundEnv.processingOver() || disabled) return false;
-		TreeSet<TechDebtElement> elements = new TreeSet<>((element1, element2) ->  element1.getFullName().compareTo(element2.getFullName()));
+		TreeSet<TechDebtElement> elements = new TreeSet<>((element1, element2) ->  element1.hashCode() - element2.hashCode());
 		for (TypeElement annotation : annotations) {
 	        Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
 	        for (Element element : annotatedElements) {
+	        	System.out.println("Element: " + element);
+	        	
 	        	TechDebts debts = element.getAnnotation(TechDebts.class);
+	        	System.out.println("TechDebts: " + debts);
 	        	TechDebt[] techDebts;
 	        	if(debts != null)
 	        		techDebts = debts.value();
 	        	else
-	        		techDebts = new TechDebt[] {element.getAnnotation(TechDebt.class)};
+	        		techDebts = element.getAnnotationsByType(TechDebt.class);
 	        	for (TechDebt techDebt : techDebts) {
 		        	TechDebtElement techDebtElement = new TechDebtElement(techDebt, element);
 		        	elements.add(techDebtElement);
@@ -88,6 +100,8 @@ public class TechDebtAnnotationProcessor extends AbstractProcessor {
 			return new SysoutReport();
 		} else if(Objects.equals(implementationClassName, "simple")) {
 			return new SimpleReport();
+		} else if(Objects.equals(implementationClassName, "xml")) {
+			return new XmlReport();
 		} 
 		try {
 			return (TechDebtReport) Class.forName(implementationClassName).getDeclaredConstructor().newInstance();
