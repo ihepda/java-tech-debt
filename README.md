@@ -43,6 +43,7 @@ public class MiaProva2 {
 Currently are available only 2 type of report:
 * sysout: dump the report in the standard output stream (System.out)
 * simple: dump the report in a file
+* xml: dump the report in a file in XML format
 
 ### Custom report
 You can use a custom report writing a class that implements **io.github.ihepda.techdebt.report.TechDebtReport** or extends **io.github.ihepda.techdebt.report.AbstractReport** overriding the methods init and report.
@@ -113,6 +114,6 @@ Remember to set the scope to **compile** and the **optional** tag to true. This 
 | techdebt.report.class  | class to use to create the report  | sysout  |
 | techdebt.report.severity.order  | boolean parameter, specifies the report has to order for severity  | false |
 | techdebt.report.output.dir  | folder where to save the report file. Used only with techdebt.report.class=simple |  System.getProperty("java.io.tmpdir") |
-| techdebt.report.output.name | name of the report file. Used only with techdebt.report.class=simple |  TechDebt.report |
+| techdebt.report.output.name | name of the report file. Used only with techdebt.report.class=simple |  simple=> TechDebt.report , xml=>TechDebt.xml|
 
 

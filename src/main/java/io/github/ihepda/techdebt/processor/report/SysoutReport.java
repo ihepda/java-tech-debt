@@ -6,6 +6,10 @@ import java.util.Set;
 import io.github.ihepda.techdebt.TechDebt.Severity;
 import io.github.ihepda.techdebt.processor.TechDebtElement;
 
+/**
+ * Simple report implementation that writes the technical debt elements to the
+ * console.
+ */
 public class SysoutReport extends AbstractReport {
 
 

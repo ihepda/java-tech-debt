@@ -11,6 +11,10 @@ import javax.xml.stream.XMLStreamWriter;
 import io.github.ihepda.techdebt.TechDebt;
 import io.github.ihepda.techdebt.processor.TechDebtElement;
 
+/**
+ * Simple report implementation that writes the technical debt elements to a
+ * file in an XML format.
+ */
 public class XmlReport extends AbstractReport {
 
 	private File output;
@@ -21,61 +25,67 @@ public class XmlReport extends AbstractReport {
 	}
 	
 	private void initOutputDirectory(Properties parameters) {
-		String outputDir = parameters.getProperty(TechDebtReport.OUTPUT_DIRECTORY_PARAMETER);
-		if(outputDir == null || outputDir.trim().length() == 0)
-			outputDir = System.getProperty("java.io.tmpdir");
-		File f = new File(outputDir);
-		if(!f.exists())
-			f.mkdirs();
-		if(!f.isDirectory())
+		String outputDir = parameters.getProperty(TechDebtReport.OUTPUT_DIRECTORY_PARAMETER,
+				System.getProperty("java.io.tmpdir"));
+		File dir = new File(outputDir);
+
+		if (!dir.exists() && !dir.mkdirs()) {
+			throw new IllegalArgumentException("Unable to create directory: " + outputDir);
+		}
+		if (!dir.isDirectory()) {
 			throw new IllegalArgumentException("Parameter " + outputDir + " is not a directory");
-		String outputFileName = parameters.getProperty(TechDebtReport.OUTPUT_NAME_PARAMETER);
-		if(outputFileName == null || outputFileName.trim().length() == 0)
-			outputFileName = TechDebt.class.getSimpleName()+".xml";
-		File outputFile = new File(f, outputFileName);
-		if(outputFile.isDirectory())
-			throw new IllegalArgumentException("Parameter " + outputDir + "/"+outputFileName+" is a directory");
-		if(outputFile.exists() && !outputFile.delete())
+		}
+
+		String outputFileName = parameters.getProperty(TechDebtReport.OUTPUT_NAME_PARAMETER,
+				TechDebt.class.getSimpleName() + ".xml");
+		File outputFile = new File(dir, outputFileName);
+
+		if (outputFile.isDirectory()) {
+			throw new IllegalArgumentException("Parameter " + outputDir + "/" + outputFileName + " is a directory");
+		}
+		if (outputFile.exists() && !outputFile.delete()) {
 			throw new IllegalArgumentException("The system can't delete " + outputFile);
+		}
+
 		this.output = outputFile;
 	}
 
 	@Override
+
 	public boolean report(Set<TechDebtElement> elements) {
-		 XMLOutputFactory xmlOutput = XMLOutputFactory.newInstance();
-		 try(FileOutputStream fos = new FileOutputStream(this.output)) {
-			 
-			 XMLStreamWriter writer = xmlOutput.createXMLStreamWriter(fos, "UTF-8");
-			 
-			 writer.writeStartDocument();
-			 writer.writeStartElement("report");
-			 for (TechDebtElement techDebtElement : elements) {
+		try (FileOutputStream fos = new FileOutputStream(this.output)) {
+			XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(fos, "UTF-8");
+
+			writer.writeStartDocument();
+			writer.writeStartElement("report");
+
+			for (TechDebtElement element : elements) {
 				writer.writeStartElement("techdebt");
-				writer.writeAttribute("severity", techDebtElement.getSeverity().toString());
-				writer.writeAttribute("type", techDebtElement.getType());
-				writer.writeAttribute("author", techDebtElement.getAuthor());
-				writer.writeAttribute("date", techDebtElement.getDate());
-				writer.writeAttribute("effort", techDebtElement.getEffort());
+				writer.writeAttribute("severity", element.getSeverity().toString());
+				writer.writeAttribute("type", element.getType());
+				writer.writeAttribute("author", element.getAuthor());
+				writer.writeAttribute("date", element.getDate());
+				writer.writeAttribute("effort", element.getEffort());
+
 				writer.writeStartElement("name");
-				writer.writeCharacters(techDebtElement.getFullName());
+				writer.writeCharacters(element.getFullName());
 				writer.writeEndElement();
 
 				writer.writeStartElement("comment");
-				writer.writeCharacters(techDebtElement.getComment());
+				writer.writeCharacters(element.getComment());
 				writer.writeEndElement();
-				
+
 				writer.writeEndElement();
-				
 			}
+
 			writer.writeEndElement();
 			writer.writeEndDocument();
 			writer.close();
 			return true;
-			 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
