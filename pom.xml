@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.github.ihepda</groupId>
 	<artifactId>techdebt-processor</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
+	<version>0.0.9</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A tool to mark technical debpt in code and to have a report</description>
 	<url>https://github.com/ihepda/java-tech-debt</url>
@@ -129,6 +129,6 @@
 		<connection>scm:git:https://github.com/ihepda/java-tech-debt.git</connection>
 		<developerConnection>scm:git:https://github.com/ihepda/java-tech-debt.git</developerConnection>
 		<url>https://github.com/ihepda/java-tech-debt/tree/main</url>
-	  <tag>HEAD</tag>
+	  <tag>techdebt-processor-0.0.9</tag>
   </scm>
 </project>
