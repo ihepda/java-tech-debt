@@ -1,4 +1,4 @@
-package io.github.ihepda.techdebt;
+package io.github.ihepda.techdebt.processor;
 
 import java.util.Objects;
 import java.util.Properties;
@@ -18,11 +18,20 @@ import javax.lang.model.element.TypeElement;
 
 import com.google.auto.service.AutoService;
 
-import io.github.ihepda.techdebt.report.SimpleReport;
-import io.github.ihepda.techdebt.report.SysoutReport;
-import io.github.ihepda.techdebt.report.TechDebtReport;
-import io.github.ihepda.techdebt.report.XmlReport;
+import io.github.ihepda.techdebt.TechDebt;
+import io.github.ihepda.techdebt.TechDebts;
+import io.github.ihepda.techdebt.processor.report.SimpleReport;
+import io.github.ihepda.techdebt.processor.report.SysoutReport;
+import io.github.ihepda.techdebt.processor.report.TechDebtReport;
+import io.github.ihepda.techdebt.processor.report.XmlReport;
 
+/**
+ * This class is the main processor for the TechDebt annotations.
+ * It will process the annotations and generate a report.<br/>
+ * The report can be customized by the user by setting the options.<br/>
+ * The user can also disable the processor by setting the option techdebt.disabled to true.
+ * 
+ */
 @SupportedAnnotationTypes(
 		{"io.github.ihepda.techdebt.TechDebt", "io.github.ihepda.techdebt.TechDebts"})
 @SupportedOptions(

@@ -1,4 +1,7 @@
 # java-tech-debt
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor)
+
 Annotations and reporting tool in order to mark technical debt issues.
 
 Technical depts are difficult to register. There are a lot of methods to register tech debs:

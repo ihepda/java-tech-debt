@@ -1,10 +1,10 @@
-package io.github.ihepda.techdebt.report;
+package io.github.ihepda.techdebt.processor.report;
 
 import java.io.PrintStream;
 import java.util.Set;
 
-import io.github.ihepda.techdebt.TechDebtElement;
 import io.github.ihepda.techdebt.TechDebt.Severity;
+import io.github.ihepda.techdebt.processor.TechDebtElement;
 
 public class SysoutReport extends AbstractReport {
 

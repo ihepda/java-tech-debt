@@ -1,4 +1,4 @@
-package io.github.ihepda.techdebt.report;
+package io.github.ihepda.techdebt.processor.report;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,7 +9,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 
 import io.github.ihepda.techdebt.TechDebt;
-import io.github.ihepda.techdebt.TechDebtElement;
+import io.github.ihepda.techdebt.processor.TechDebtElement;
 
 public class XmlReport extends AbstractReport {
 
