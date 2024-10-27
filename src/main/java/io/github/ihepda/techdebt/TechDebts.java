@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
  * A container for multiple {@link TechDebt} annotations.
  */
 @Retention(SOURCE)
-@Target({ TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, PACKAGE })
+@Target({ TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, PACKAGE, MODULE, LOCAL_VARIABLE })
 public @interface TechDebts {
 	TechDebt[] value();
 }

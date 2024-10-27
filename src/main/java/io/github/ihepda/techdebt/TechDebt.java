@@ -28,14 +28,19 @@ import java.lang.annotation.Target;
 
 @Repeatable(TechDebts.class)
 @Retention(RetentionPolicy.SOURCE)
-@Target(value={CONSTRUCTOR, FIELD, METHOD, PACKAGE, MODULE, PARAMETER, TYPE})
+@Target(value={CONSTRUCTOR, FIELD, METHOD, PACKAGE, MODULE, PARAMETER, TYPE, LOCAL_VARIABLE})
 public @interface TechDebt {
 
 	/**
 	 * A description of the technical debt.
 	 * @return
 	 */
-	String comment();
+	String comment() default "";
+	
+	/**
+     * A reference to a comment that provides more information about the technical debt.
+     */
+	String refComment() default "";
 
 	/**
 	 * The author who identified the technical debt.
@@ -72,6 +77,14 @@ public @interface TechDebt {
 	 * @return
 	 */
 	String solution() default "";
+	
+	/**
+	 * Indicates if to get all java element in the comment o not. 
+	 * if false it saves only the element name and not its content (ie: class or method) 
+	 * Default is false
+	 * @return
+	 */
+	boolean allElement() default false;
 	
 	/**
 	 * Defines the priority levels of the technical debt.
