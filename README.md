@@ -2,32 +2,61 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor)
 
-Annotations and reporting tool in order to mark technical debt issues.
+The *java-tech-debt* project is an annotation and reporting tool designed to identify and manage technical debts in code. Technical debts are an inevitable reality in software development, often overlooked or forgotten over time.
 
-Technical depts are difficult to register. There are a lot of methods to register tech debs:
-* ticket systems like jira or clickup
-* TODO comment
-* external document like Excel
-* ecc...
+## Why Technical Debts Matter 
+Technical debts represent compromises in the code that, if unmanaged, can lead to maintenance and scalability issues. Often, these debts are noted in external tools like Jira or ClickUp, but other times they are completely forgotten, accumulating and further complicating the development process.
 
-The purpose of this project is to permit to mark technical debts directly in the code and to have a report to extract information by the code in order to analyze and to plan the resolution.
+## Project Features
 
-## Mark the code
-java-tech-debt library supplies an annotation **io.github.ihepda.techdebt.TechDebt** used to register some information about the debt.
+* **Annotations**: Allows marking parts of the code that contain technical debts.
+* **Reporting**: Generates detailed reports to monitor and manage technical debts over time.
 
-	comment
-	author
-	date
-	severity
-	type
-	effort
-	
+
+##Conclusion 
+
+The java-tech-debt project offers an effective solution to keep code clean and manageable, helping development teams track technical debts and plan refactoring efforts in a more structured and informed way.
+
+## Marking Technical Debts with java-tech-debt
+
+### Introduction
+
+The **java-tech-debt** project allows you to annotate and manage technical debts directly in your code. This tutorial will guide you through the steps needed to mark technical debts using the annotations provided by the project.
+
+### Step 1: Add the Maven Dependency
+
+Ensure you have the **java-tech-debt** dependency in your *pom.xml* file:
+
 ```
-	@TechDebt(severity = Severity.MAJOR, comment = "metodo")
-	public void test(@TechDebt(severity = Severity.MINOR, comment = "parametro") String d) {
-		int x = 0;
-		System.out.println(x);
-	}
+<dependency>
+    <groupId>io.github.ihepda</groupId>
+    <artifactId>tech-debt-annotations</artifactId>
+    <version>1.0.0</version>
+    <scope>compile</scope>
+  	 <optional>true</optional>
+</dependency>
+```
+Remember to set the scope to **compile** and the **optional** tag to true. This configuration will use this library only in compilation phase and it won't be added as runtime dependency.
+
+### Step 2: Import the Annotation
+In your Java file, import the necessary annotation:
+
+	import io.github.ihepda.techdebt.annotations.TechDebt;
+	
+### Step 3: Annotate the Code with Technical Debts
+
+Use the annotation to mark technical debts in your code. Here is an example:
+
+```
+@TechDebt(
+    description = "Refactor this method to improve readability",
+    date = "2024-10-28",
+    owner = "developer@example.com",
+    severity= Severity.MAJOR
+)
+public void someMethod() {
+    // Code that needs refactoring
+}
 ```
 
 You can use a single annotation or multiple annotation
@@ -35,85 +64,83 @@ You can use a single annotation or multiple annotation
 ```
 @TechDebt(severity = Severity.MAJOR, comment = "classe")
 @TechDebt(severity = Severity.MINOR, comment = "minor class", effort = Effort.MASSIVE, type = Type.PERFORMANCE)
-public class MiaProva2 {
+public class MyClass {
+```
+You can mark issues in statement blocks, unfortunately you can't use annotation in statement but **java-tech-debs** supply a method to mark some statement blocks using the *refComment* attribute.
+With the *refComment* you can mark a comment as a technical debt comment that the system will use to identify the location of the block to mark, in the example the *refComment="AX"* indicates a block that starts with a comment @TD-AX and ends with a line comment #TD-AX (AX is the code).
+
+Important is: the start block is a multi-line java comment (not javadoc comment) with the first line that contains the block code @TD-{code}, all comment below this row will be used to set the *comment* attribute in the tecnical debt information.
+The end of the block must be a single line comment starts with #TD-{code}
+
+```
+	@TechDebt(
+			comment = "strange method2", 
+			author = "CDA", 
+			severity = TechDebt.Severity.TRIVIAL, 
+			type = Type.MAINTAINABILITY, 
+			effort = Effort.MASSIVE,
+			refComment = "AX")
+	public void execute2(Map<String, Object> params) {
+		@TechDebt(comment = "bad variable", author = "me", severity = TechDebt.Severity.MAJOR)
+		var a = 10;
+		var b = 20;
+
+		/*
+		 * @TD-AX 
+		 * This is a test comment for AX
+		 * 
+		 * to check
+		 */
+		this.execute(null);
+		// #TD-AX
+		this.execute(null);
+
+	}
+
 ```
 
 
-## Reports
-Currently are available only 2 type of report:
-* sysout: dump the report in the standard output stream (System.out)
-* simple: dump the report in a file
-* xml: dump the report in a file in XML format
 
-### Custom report
-You can use a custom report writing a class that implements **io.github.ihepda.techdebt.report.TechDebtReport** or extends **io.github.ihepda.techdebt.report.AbstractReport** overriding the methods init and report.
-Add the report in the classpath of the javac and set the property techdebt.report.class with the fully qualified name of the class.
-ie:
+### Step 4: Generate Reports
 
-```
-\Java\jdk-17.0.11\bin\javac -Atechdebt.report.class=my.processor.CustomReport -classpath techdebt-processor-0.0.8-SNAPSHOT.jar;my-processor.jar  test\MyAnnotatedClass.java
-```
+Once you have annotated the code, you can generate reports to monitor and manage technical debts. Run the Maven command to generate the report:
 
-## How to generate the report
-The report processor uses the javax.annotation.processing.Processor API. You can use it directly by the javac compiler adding the jar at the classpath or you can configure the maven-compiler-plugin, below some example:
+	mvn tech-debt:report
 
-### Using the processor by the javac
+or
+
+	mvn site
+
+This command will analyze the annotations in your code and generate a detailed report of the technical debts.
+
+Or, you can add the plugin in the *reporting* section of your *pom.xml*
 
 ```
-\Java\jdk-17.0.11\bin\javac -classpath techdebt-processor-0.0.8-SNAPSHOT.jar test\MyAnnotatedClass.java
+	<reporting>
+		<plugins>
+			<plugin>
+		        <groupId>io.github.ihepda</groupId>
+		        <artifactId>tech-debt-maven-plugin</artifactId>
+		  			<version>1.0.0-SNAPSHOT</version>
+				
+			</plugin>
+		</plugins>
+	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+
+			</plugin>
+		</plugins>
+	</build>
 ```
 
-### Using the processor with maven
-Add the techdebt-processor as dependency in the pom
+### Conclusion
+Annotating technical debts directly in the code with **java-tech-debt** helps keep the code clean and manageable. Following these steps will allow you to track technical debts and plan refactoring efforts in a more structured way.
 
-```
-  	<dependency>
-		<groupId>io.github.ihepda</groupId>
-		<artifactId>techdebt-processor</artifactId>
-  		<version>0.0.8-SNAPSHOT</version>
-  		<scope>compile</scope>
-  		<optional>true</optional>
-  	</dependency>
-```
-Remember to set the scope to **compile** and the **optional** tag to true. This configuration will use this library only in compilation phase and it won't be added as runtime dependency.
+## Examples
 
-```
-  <build>
-  	<plugins>
-  		<plugin>
-  			<groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <encoding>UTF-8</encoding>
-                <annotationProcessorPaths>
-                	<annotationProcessorPath>
-						<groupId>io.github.ihepda</groupId>
-						<artifactId>techdebt-processor</artifactId>
-				  		<version>0.0.8-SNAPSHOT</version>
-  						  
-                	</annotationProcessorPath>
-                	
-                </annotationProcessorPaths>
-                <compilerArgs>
-                	<compilerArg>-Atechdebt.report.severity.order=true</compilerArg>
-                	<compilerArg>-Atechdebt.report.output.dir=c:\Projects\tmp</compilerArg>
-                	<compilerArg>-Atechdebt.report.class=simple</compilerArg>
-                </compilerArgs>
-            </configuration>
-  		</plugin>
-  	</plugins>
-  </build>
-```
-
-
-### Configuration
-
-
-| property  | description | default value |
-|-----------|-------------|---------------|
-| techdebt.report.class  | class to use to create the report  | sysout  |
-| techdebt.report.severity.order  | boolean parameter, specifies the report has to order for severity  | false |
-| techdebt.report.output.dir  | folder where to save the report file. Used only with techdebt.report.class=simple |  System.getProperty("java.io.tmpdir") |
-| techdebt.report.output.name | name of the report file. Used only with techdebt.report.class=simple |  simple=> TechDebt.report , xml=>TechDebt.xml|
-
-
+Please see the example in **example** folder
