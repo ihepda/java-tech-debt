@@ -141,3 +141,6 @@ Or, you can add the plugin in the *reporting* section of your *pom.xml*
 ### Conclusion
 Annotating technical debts directly in the code with **java-tech-debt** helps keep the code clean and manageable. Following these steps will allow you to track technical debts and plan refactoring efforts in a more structured way.
 
+## Examples
+
+Please see the example in **example** folder
