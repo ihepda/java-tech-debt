@@ -107,6 +107,10 @@ Once you have annotated the code, you can generate reports to monitor and manage
 
 	mvn tech-debt:report
 
+or
+
+	mvn site
+
 This command will analyze the annotations in your code and generate a detailed report of the technical debts.
 
 Or, you can add the plugin in the *reporting* section of your *pom.xml*
@@ -122,6 +126,16 @@ Or, you can add the plugin in the *reporting* section of your *pom.xml*
 			</plugin>
 		</plugins>
 	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+
+			</plugin>
+		</plugins>
+	</build>
 ```
 
 ### Conclusion
