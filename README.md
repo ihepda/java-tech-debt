@@ -1,6 +1,12 @@
 # java-tech-debt
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/techdebt-processor)
+| Resource | Status |
+| ---- | ------ |
+|Parent project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-parent/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-parent)|
+|Annotation project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-annotation/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-annotation)|
+|Processor project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-processor/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-processor)|
+|Maven plugin project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-maven-plugin/badge.svg?style=flat)](https://central.sonatype.com/artifact/io.github.ihepda/tech-debt-maven-plugin)|
+
 
 The *java-tech-debt* project is an annotation and reporting tool designed to identify and manage technical debts in code. Technical debts are an inevitable reality in software development, often overlooked or forgotten over time.
 
