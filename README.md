@@ -30,7 +30,7 @@ Ensure you have the **java-tech-debt** dependency in your *pom.xml* file:
 ```
 <dependency>
     <groupId>io.github.ihepda</groupId>
-    <artifactId>tech-debt-annotations</artifactId>
+    <artifactId>tech-debt-annotation</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
   	 <optional>true</optional>
