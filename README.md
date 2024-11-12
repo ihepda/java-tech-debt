@@ -19,7 +19,7 @@ Technical debts represent compromises in the code that, if unmanaged, can lead t
 * **Reporting**: Generates detailed reports to monitor and manage technical debts over time.
 
 
-##Conclusion 
+## Conclusion 
 
 The java-tech-debt project offers an effective solution to keep code clean and manageable, helping development teams track technical debts and plan refactoring efforts in a more structured and informed way.
 
