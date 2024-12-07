@@ -8,6 +8,7 @@ import java.util.Properties;
 import io.github.ihepda.techdebt.filter.FilterManager;
 import io.github.ihepda.techdebt.javaparser.TechDebtResource;
 import io.github.ihepda.techdebt.utils.FileNamePatternUtils;
+import io.github.ihepda.techdebt.utils.InternalLogger;
 
 public abstract class AbstractFileReporter implements Reporter {
 
@@ -20,6 +21,13 @@ public abstract class AbstractFileReporter implements Reporter {
 	private boolean multipleReports;
 	private String filenamePattern;
 	private FilterManager filterManager;
+	private InternalLogger logger;
+
+	
+	protected AbstractFileReporter(InternalLogger logger) {
+		super();
+		this.logger = logger;
+	}
 
 	protected abstract String getDefaultFileNamePattern();
 	
@@ -52,14 +60,17 @@ public abstract class AbstractFileReporter implements Reporter {
 		return FileNamePatternUtils.generateFileName(pattern, Collections.emptyMap());
 		
 	}
-        
+     
+	public InternalLogger getLogger() {
+		return logger;
+	}
 	
 	@Override
 	public void init(Properties properties) {
 		outputDirectory = Path.of(properties.getProperty(OUTPUT_FILE_LOCATION));
 		multipleReports = Boolean.parseBoolean(properties.getProperty(MULTIPLE_REPORTS));
 		filenamePattern = properties.getProperty(FILENAME_PATTERN);
-		this.filterManager = new FilterManager(properties.getProperty(FILTER_REPORT));
+		this.filterManager = new FilterManager(properties.getProperty(FILTER_REPORT), this.getLogger());
 	}
 
 	@Override

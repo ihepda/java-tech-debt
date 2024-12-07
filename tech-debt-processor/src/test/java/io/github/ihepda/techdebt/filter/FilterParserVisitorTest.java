@@ -78,6 +78,19 @@ class FilterParserVisitorTest {
 	}
 
 	@Test
+	void testLikeMultiLine() {
+		TechDebtElement techDebt = new TechDebtElement();
+		techDebt.setSeverity(Severity.MAJOR);
+		techDebt.setComment("Test comment in order to test like\n\n with a multi line");
+		FilterOperation filterOperation = FilterParserVisitor.parse("comment like '%test%'");
+
+		boolean execute = filterOperation.execute(techDebt);
+		assertTrue(execute);
+		
+		
+	}
+
+	@Test
 	void testIn() {
 		TechDebtElement techDebt = new TechDebtElement();
 		techDebt.setSeverity(Severity.MAJOR);

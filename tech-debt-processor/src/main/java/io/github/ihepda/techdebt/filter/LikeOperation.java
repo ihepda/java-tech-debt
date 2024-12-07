@@ -20,7 +20,7 @@ public class LikeOperation extends CompareOperation{
 	protected void setValue(Comparable<?> value) {
 		if (value instanceof String s) {
 			String regExp = StringUtils.sqlLikeToRegExp(s);
-			likePattern = Pattern.compile(regExp);
+			likePattern = Pattern.compile(regExp, Pattern.DOTALL);
 		} 
 		super.setValue(value);
 	}

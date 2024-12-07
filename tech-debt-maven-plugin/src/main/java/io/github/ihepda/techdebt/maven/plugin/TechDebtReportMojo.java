@@ -162,15 +162,20 @@ public class TechDebtReportMojo extends AbstractMavenReport {
 			Path[] paths = sources.stream().map(Paths::get).toArray(Path[]::new);
 			SourcesNavigator navigator = new SourcesNavigator();
 			Log log = this.getLog();
-			navigator.setInternalLogger(new MavenInternalLogger(log));
+			MavenInternalLogger logger = new MavenInternalLogger(log);
+			navigator.setInternalLogger(logger);
 			List<TechDebtResource> tds = navigator.navigate(paths);
 			tds = order(tds);
 			
-			XmlReporter reporter = new XmlReporter();
+			XmlReporter reporter = new XmlReporter(logger);
 			Properties props = new Properties();
 			props.put(AbstractFileReporter.OUTPUT_FILE_LOCATION, outputDir.toString());
-			props.put(AbstractFileReporter.FILENAME_PATTERN, filenamePattern);
-			props.put(AbstractFileReporter.FILTER_REPORT, filter);
+			if (filenamePattern != null) {
+				props.put(AbstractFileReporter.FILENAME_PATTERN, filenamePattern);
+			}
+			if (filter != null) {
+				props.put(AbstractFileReporter.FILTER_REPORT, filter);
+			}
 			reporter.init(props);
 
 			reporter.report(tds);
