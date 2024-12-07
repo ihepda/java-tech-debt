@@ -1,6 +1,7 @@
 package io.github.ihepda.techdebt.utils;
 
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 
 public class StringUtils {
 	private StringUtils() {}
@@ -9,6 +10,31 @@ public class StringUtils {
 		if (isNotBlank(value)) {
 			setter.accept(value);
 		}
+	}
+	
+	public static String sqlLikeToRegExp(String sqlLike) {
+		if (isBlank(sqlLike)) {
+			return sqlLike;
+		}
+		StringBuilder regex = new StringBuilder("^");
+        boolean escaping = false;
+        
+        for (char c : sqlLike.toCharArray()) {
+            if (escaping) {
+                regex.append(Pattern.quote(String.valueOf(c)));
+                escaping = false;
+            } else if (c == '\\') {
+                escaping = true;
+            } else if (c == '%') {
+                regex.append(".*");
+            } else if (c == '_') {
+                regex.append(".");
+            } else {
+                regex.append(Pattern.quote(String.valueOf(c)));
+            }
+        }
+        return regex.append('$').toString();
+        
 	}
 	
 	public static int extractIndexFromCollectionIndex(String val) {

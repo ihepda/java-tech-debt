@@ -23,7 +23,10 @@ import io.github.ihepda.techdebt.report.AbstractFileReporter;
 import io.github.ihepda.techdebt.report.XmlReporter;
 import io.github.ihepda.techdebt.utils.FileNamePatternUtils;
 
-@Mojo(name = "report", defaultPhase = LifecyclePhase.SITE, requiresDependencyResolution = ResolutionScope.RUNTIME, requiresProject = true, threadSafe = true)
+@Mojo(name = "report"
+, defaultPhase = LifecyclePhase.SITE
+, requiresDependencyResolution = ResolutionScope.RUNTIME
+, requiresProject = true, threadSafe = true)
 public class TechDebtReportMojo extends AbstractMavenReport {
 
 	/**
@@ -35,6 +38,9 @@ public class TechDebtReportMojo extends AbstractMavenReport {
 	@Parameter(property = "source.dir", defaultValue = "${project.build.sourceDirectory}", required = true)
 	private List<String> sources;
 
+	@Parameter(property = "report.filter", required = false)
+	private String filter;
+	
 	@Override
 	public String getOutputName() {
 		return FileNamePatternUtils.generateFileName(filenamePattern, Collections.emptyMap());
@@ -164,6 +170,7 @@ public class TechDebtReportMojo extends AbstractMavenReport {
 			Properties props = new Properties();
 			props.put(AbstractFileReporter.OUTPUT_FILE_LOCATION, outputDir.toString());
 			props.put(AbstractFileReporter.FILENAME_PATTERN, filenamePattern);
+			props.put(AbstractFileReporter.FILTER_REPORT, filter);
 			reporter.init(props);
 
 			reporter.report(tds);
