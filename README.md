@@ -19,7 +19,7 @@ Technical debts represent compromises in the code that, if unmanaged, can lead t
 * **Reporting**: Generates detailed reports to monitor and manage technical debts over time.
 
 
-##Conclusion 
+## Conclusion 
 
 The java-tech-debt project offers an effective solution to keep code clean and manageable, helping development teams track technical debts and plan refactoring efforts in a more structured and informed way.
 
@@ -37,7 +37,7 @@ Ensure you have the **java-tech-debt** dependency in your *pom.xml* file:
 <dependency>
     <groupId>io.github.ihepda</groupId>
     <artifactId>tech-debt-annotation</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <scope>compile</scope>
   	 <optional>true</optional>
 </dependency>
@@ -127,7 +127,7 @@ Or, you can add the plugin in the *reporting* section of your *pom.xml*
 			<plugin>
 		        <groupId>io.github.ihepda</groupId>
 		        <artifactId>tech-debt-maven-plugin</artifactId>
-		  			<version>1.0.0-SNAPSHOT</version>
+		  			<version>1.0.1</version>
 				
 			</plugin>
 		</plugins>
@@ -143,6 +143,51 @@ Or, you can add the plugin in the *reporting* section of your *pom.xml*
 		</plugins>
 	</build>
 ```
+
+#### Filtering
+issue: https://github.com/ihepda/java-tech-debt/issues/6
+
+The report permits to set a filter in order to match only interested technical debts, for example technical debts sith a severity MAJOR or CRITICAL.
+
+The filter is an 'SQL like filter', this is, you can use:
+* common operators : =, !=, <=, <, >=, >
+* like operator with or without the not keyword
+* in operator with or without the not keyword
+* and or conjunctions
+* grouping expression with '(' and ')'
+
+Below an example
+```
+comment like '%test%' and severity >= 'MAJOR' or author in ('CDA', 'LA')
+
+comment not like '%test%' and (severity = 'MAJOR' or author not in ('CDA', 'LA'))
+```
+In order to activate the filter you have to add the *filter* configuration in the plugin
+```
+	<reporting>
+		<plugins>
+			<plugin>
+		        <groupId>io.github.ihepda</groupId>
+		        <artifactId>tech-debt-maven-plugin</artifactId>
+		  		<version>1.0.1</version>
+				<configuration>
+                    <filter>comment like '%test%'</filter>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.12.1</version>
+
+			</plugin>
+		</plugins>
+	</build>
+```
+
 
 ### Conclusion
 Annotating technical debts directly in the code with **java-tech-debt** helps keep the code clean and manageable. Following these steps will allow you to track technical debts and plan refactoring efforts in a more structured way.

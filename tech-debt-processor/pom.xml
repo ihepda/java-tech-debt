@@ -24,6 +24,40 @@
 		    <version>5.11.3</version>
 		    <scope>test</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.13.2</version>
+		</dependency>
 	</dependencies>
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.build.directory}/generated-sources/antlr4</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.13.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+						<configuration>
+							<visitor>true</visitor>
+							<outputDirectory>
+								${project.build.directory}/generated-sources/antlr4/io/github/ihepda/techdebt/filter/parser</outputDirectory>
+							<arguments>
+								<argument>-package</argument>
+								<argument>io.github.ihepda.techdebt.filter.parser</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>	
+	</build>
 </project>
