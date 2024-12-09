@@ -87,6 +87,13 @@ public @interface TechDebt {
 	boolean allElement() default false;
 	
 	/**
+	 * The ticket number to track the technical debt.
+	 * 
+	 * @return
+	 */
+	String ticket() default "";
+	
+	/**
 	 * Defines the priority levels of the technical debt.
 	 */
 	public enum Severity {

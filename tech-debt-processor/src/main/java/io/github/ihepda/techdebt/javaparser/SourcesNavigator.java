@@ -178,6 +178,8 @@ public class SourcesNavigator implements InternalLoggerAware {
 				techDebtElement.setRefComment( value.asStringLiteralExpr().getValue());
 			} else if (name.equals("allElement")) {
 				techDebtElement.setAllElement(Boolean.valueOf(value.toString()));
+			} else if (name.equals("ticket")) {
+				techDebtElement.setTicket(value.asStringLiteralExpr().getValue());
 			}
 		});
 		Optional<Node> parentNode = n.getParentNode();
