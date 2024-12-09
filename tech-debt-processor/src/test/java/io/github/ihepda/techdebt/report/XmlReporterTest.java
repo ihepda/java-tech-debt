@@ -12,12 +12,13 @@ import org.junit.jupiter.api.Test;
 import io.github.ihepda.techdebt.javaparser.SourcesNavigator;
 import io.github.ihepda.techdebt.javaparser.TechDebtResource;
 import io.github.ihepda.techdebt.utils.ConsoleLogger;
+import io.github.ihepda.techdebt.utils.DummyInternalLogger;
 
 class XmlReporterTest {
 
 	@Test
 	void test() throws IOException {
-		XmlReporter xmlReporter = new XmlReporter();
+		XmlReporter xmlReporter = new XmlReporter(new DummyInternalLogger());
 		Properties properties = new Properties();
 		properties.setProperty(AbstractFileReporter.OUTPUT_FILE_LOCATION, "./target/techdebts");
 		xmlReporter.init(properties);

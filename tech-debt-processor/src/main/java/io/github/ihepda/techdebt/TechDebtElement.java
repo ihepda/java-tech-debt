@@ -18,6 +18,7 @@ public class TechDebtElement {
     private int lineNumber;
     private String fileName;
     private boolean allElement;
+    private String ticket;
 
     public TechDebtElement() {
         this.severity = Severity.MINOR;
@@ -27,6 +28,7 @@ public class TechDebtElement {
         this.date = "";
         this.solution = "";
         allElement = false;
+        this.ticket = "";
     }
 
     public Severity getSeverity() {
@@ -126,6 +128,16 @@ public class TechDebtElement {
 		this.allElement = allElement;
 	}
 
+	
+	
+	public String getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(String ticket) {
+		this.ticket = ticket;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -153,6 +165,8 @@ public class TechDebtElement {
 		builder.append(fileName);
 		builder.append(", allElement=");
 		builder.append(allElement);
+		builder.append(", ticket=");
+		builder.append(ticket);
 		builder.append("]");
 		return builder.toString();
 	}

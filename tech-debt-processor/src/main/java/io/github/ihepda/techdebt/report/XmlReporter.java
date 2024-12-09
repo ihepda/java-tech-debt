@@ -11,9 +11,14 @@ import javax.xml.stream.XMLStreamWriter;
 
 import io.github.ihepda.techdebt.TechDebtElement;
 import io.github.ihepda.techdebt.javaparser.TechDebtResource;
+import io.github.ihepda.techdebt.utils.InternalLogger;
 import io.github.ihepda.techdebt.utils.StringUtils;
 
 public class XmlReporter extends AbstractFileReporter {
+
+	public XmlReporter(InternalLogger logger) {
+		super(logger);
+	}
 
 	@Override
 	protected void generateReport(List<TechDebtResource> resources) {
@@ -71,6 +76,10 @@ public class XmlReporter extends AbstractFileReporter {
 			}
 			if (StringUtils.isNotBlank(element.getRefComment())) {
 				writer.writeAttribute("refComment", element.getRefComment());
+			}
+
+			if (StringUtils.isNotBlank(element.getTicket())) {
+				writer.writeAttribute("ticket", element.getTicket());
 			}
 			
 			writer.writeStartElement("comment");

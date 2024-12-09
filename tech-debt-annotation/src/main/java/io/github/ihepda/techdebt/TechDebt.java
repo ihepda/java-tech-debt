@@ -87,14 +87,22 @@ public @interface TechDebt {
 	boolean allElement() default false;
 	
 	/**
+	 * The ticket number to track the technical debt.
+	 * 
+	 * @return
+	 */
+	String ticket() default "";
+	
+	/**
 	 * Defines the priority levels of the technical debt.
 	 */
 	public enum Severity {
-		TRIVIAL(-10),
-		MINOR(10),
-		MAJOR(20),
-		SEVERE(30),
-		CATASTROPHIC(40);
+	    TRIVIAL(-10),
+	    MINOR(10),
+	    MAJOR(20),
+	    SEVERE(30),
+	    CATASTROPHIC(40);
+		
 		private int priority;
 
 		private Severity(int priority) {
@@ -102,6 +110,15 @@ public @interface TechDebt {
 		}
 		public int getPriority() {
 			return priority;
+		}
+		
+		public static Severity valueOf(int priority) {
+			for (Severity severity : values()) {
+				if (severity.priority == priority) {
+					return severity;
+				}
+			}
+			return null;
 		}
 		
 	}
@@ -114,17 +131,45 @@ public @interface TechDebt {
 		SECURITY,
 		MAINTAINABILITY,
 		REMOVE;
+		
+		public static Type valueOf(int priority) {
+			for (Type type : values()) {
+				if (type.ordinal() == priority) {
+					return type;
+				}
+			}
+			return null;
+		}
 	}
 
 	/**
 	 * Defines the effort levels required to address the technical debt.
 	 */
 	public enum Effort {
-		MICRO,
-		SMALL,
-		MEDIUM,
-		LARGE,
-		HUGE,
-		MASSIVE
+	    MASSIVE(20),
+	    HUGE(10),
+	    LARGE(5),
+	    MEDIUM(0),
+	    SMALL(-5),
+	    MICRO(-10);
+
+		
+		private int priority;
+
+		private Effort(int priority) {
+			this.priority = priority;
+		}
+		public int getPriority() {
+			return priority;
+		}
+		
+		public static Effort valueOf(int priority) {
+            for (Effort effort : values()) {
+                if (effort.priority == priority) {
+                    return effort;
+                }
+            }
+            return null;
+		}
 	}
 }
