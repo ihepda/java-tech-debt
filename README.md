@@ -171,7 +171,7 @@ In order to activate the filter you have to add the *filter* configuration in th
 		        <artifactId>tech-debt-maven-plugin</artifactId>
 		  		<version>1.0.1</version>
 				<configuration>
-                    <filter>comment like '%test%'</filter>
+                    			<filter>comment like '%test%'</filter>
 				</configuration>
 			</plugin>
 		</plugins>
