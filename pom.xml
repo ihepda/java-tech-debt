@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.ihepda</groupId>
   <artifactId>tech-debt-parent</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>1.0.2-SNAPSHOT</version>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>A tool to mark technical debpt in code and to have a report</description>
   <url>https://github.com/ihepda/java-tech-debt</url>
