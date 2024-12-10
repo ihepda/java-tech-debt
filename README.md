@@ -111,7 +111,7 @@ The end of the block must be a single line comment starts with #TD-{code}
 
 Once you have annotated the code, you can generate reports to monitor and manage technical debts. Run the Maven command to generate the report:
 
-	mvn tech-debt:report
+	mvn io.github.ihepda:tech-debt-maven-plugin:report
 
 or
 
