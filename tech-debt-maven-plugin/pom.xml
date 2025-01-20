@@ -153,6 +153,27 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.13.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+						<configuration>
+							<visitor>true</visitor>
+							<outputDirectory>
+								${project.build.directory}/generated-sources/antlr4/io/github/ihepda/techdebt/maven/plugin/filter</outputDirectory>
+							<arguments>
+								<argument>-package</argument>
+								<argument>io.github.ihepda.techdebt.maven.plugin.filter</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
 				<configuration>
