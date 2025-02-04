@@ -18,11 +18,12 @@ import io.github.ihepda.techdebt.TechDebt.Type;
 import io.github.ihepda.techdebt.TechDebtElement;
 import io.github.ihepda.techdebt.javaparser.SourcesNavigator;
 import io.github.ihepda.techdebt.javaparser.TechDebtResource;
-import io.github.ihepda.techdebt.maven.plugin.filter.CounterByType;
+import io.github.ihepda.techdebt.maven.plugin.filter.CounterByData;
+import io.github.ihepda.techdebt.maven.plugin.filter.FilterManager;
+import io.github.ihepda.techdebt.utils.StringUtils;
 
 @Mojo(name = "check"
-, defaultPhase = LifecyclePhase.VERIFY
-, requiresDependencyResolution = ResolutionScope.RUNTIME
+, defaultPhase = LifecyclePhase.PROCESS_SOURCES
 , requiresProject = true, threadSafe = true)
 public class TechDebtCheckerMojo extends AbstractMojo {
 
@@ -35,18 +36,29 @@ public class TechDebtCheckerMojo extends AbstractMojo {
 
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		Log log = this.getLog();
+		if(StringUtils.isBlank(filter)) {
+			log.info("No filter defined! Bypass check");
+			return;
+		}
+		log.debug("Filter defined : " + filter);
 		Path[] paths = sources.stream().map(Paths::get).toArray(Path[]::new);
 		SourcesNavigator navigator = new SourcesNavigator();
-		Log log = this.getLog();
 		MavenInternalLogger logger = new MavenInternalLogger(log);
 		navigator.setInternalLogger(logger);
 		List<TechDebtResource> tds = navigator.navigate(paths);
 		List<TechDebtElement> list = tds.stream().flatMap(td-> td.elements().stream()).toList();
-		CounterByType counter = new CounterByType();
+		CounterByData counter = new CounterByData();
 		for (TechDebtElement techDebtElement : list) {
 			Severity severity = techDebtElement.getSeverity();
 			Type type = techDebtElement.getType();
 			counter.add(severity, type);
+		}
+		log.debug("Tech debt elements found : " + counter.getCount());
+		FilterManager filterManager = new FilterManager(filter, logger);
+		boolean check = filterManager.check(counter);
+		if (check) {
+			throw new MojoFailureException("Tech debt check failed!");
 		}
 	}
 	

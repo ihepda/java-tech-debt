@@ -3,7 +3,7 @@ package io.github.ihepda.techdebt.maven.plugin.filter;
 public class AndLogicOperation extends LogicOperation {
 
 	@Override
-	public boolean execute(CounterByType techDebt) {
+	public boolean execute(CounterByData techDebt) {
 		boolean execute = this.getLeft().execute(techDebt);
 		if (!execute) {
 			return false;

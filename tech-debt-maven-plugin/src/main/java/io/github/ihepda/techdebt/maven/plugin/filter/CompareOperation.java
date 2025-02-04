@@ -28,7 +28,7 @@ public abstract class CompareOperation implements FilterOperation {
 	}
 	
 	@Override
-	public boolean execute(CounterByType counterByType) {
+	public boolean execute(CounterByData counterByType) {
 		int count = 0;
 		
 		if (element instanceof Severity s) {

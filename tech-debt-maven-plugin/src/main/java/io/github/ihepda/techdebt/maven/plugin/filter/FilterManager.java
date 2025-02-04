@@ -13,7 +13,7 @@ public class FilterManager {
 		if (filterString == null || filterString.isEmpty()) {
 			this.filterOperation = new FilterOperation() {
 				@Override
-				public boolean execute(CounterByType counterByType) {
+				public boolean execute(CounterByData counterByType) {
 					return true;
 				}
 
@@ -30,10 +30,8 @@ public class FilterManager {
 		this.logger.info("Apply report filter: {}", sb);
 	}
 	
-	public boolean matches(CounterByType techDebtResource) {
-		boolean execute = this.filterOperation.execute(techDebtResource);
-		this.logger.debug("TechDebtElement match result {} : {}", execute, techDebtResource);
-		return execute;
+	public boolean check(CounterByData techDebtResource) {
+		return this.filterOperation.execute(techDebtResource);
 	}
 	
 }
