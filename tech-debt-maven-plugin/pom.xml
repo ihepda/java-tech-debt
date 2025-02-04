@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>tech-debt-parent</artifactId>
 		<groupId>io.github.ihepda</groupId>
-		<version>1.1.0</version>
+		<version>1.1.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tech-debt-maven-plugin</artifactId>
