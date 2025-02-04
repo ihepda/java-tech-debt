@@ -7,10 +7,10 @@
 |Processor project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-processor/badge.svg?style=flat)](https://central.sonatype.com/artifact/io.github.ihepda/tech-debt-processor)|
 |Maven plugin project|[![Maven Central parent](https://maven-badges.herokuapp.com/maven-central/io.github.ihepda/tech-debt-maven-plugin/badge.svg?style=flat)](https://central.sonatype.com/artifact/io.github.ihepda/tech-debt-maven-plugin)|
 
-
 The *java-tech-debt* project is an annotation and reporting tool designed to identify and manage technical debts in code. Technical debts are an inevitable reality in software development, often overlooked or forgotten over time.
 
-## Why Technical Debts Matter 
+## Why Technical Debts Matter
+
 Technical debts represent compromises in the code that, if unmanaged, can lead to maintenance and scalability issues. Often, these debts are noted in external tools like Jira or ClickUp, but other times they are completely forgotten, accumulating and further complicating the development process.
 
 ## Project Features
@@ -18,10 +18,11 @@ Technical debts represent compromises in the code that, if unmanaged, can lead t
 * **Annotations**: Allows marking parts of the code that contain technical debts.
 * **Reporting**: Generates detailed reports to monitor and manage technical debts over time.
 
-
-## Conclusion 
+## Conclusion
 
 The java-tech-debt project offers an effective solution to keep code clean and manageable, helping development teams track technical debts and plan refactoring efforts in a more structured and informed way.
+
+Annotating technical debts directly in the code with **java-tech-debt** helps keep the code clean and manageable. Following these steps will allow you to track technical debts and plan refactoring efforts in a more structured way.
 
 ## Marking Technical Debts with java-tech-debt
 
@@ -33,27 +34,29 @@ The **java-tech-debt** project allows you to annotate and manage technical debts
 
 Ensure you have the **java-tech-debt** dependency in your *pom.xml* file:
 
-```
+```xml
 <dependency>
     <groupId>io.github.ihepda</groupId>
     <artifactId>tech-debt-annotation</artifactId>
     <version>1.0.1</version>
     <scope>compile</scope>
-  	 <optional>true</optional>
+    <optional>true</optional>
 </dependency>
 ```
+
 Remember to set the scope to **compile** and the **optional** tag to true. This configuration will use this library only in compilation phase and it won't be added as runtime dependency.
 
 ### Step 2: Import the Annotation
+
 In your Java file, import the necessary annotation:
 
-	import io.github.ihepda.techdebt.annotations.TechDebt;
-	
+ import io.github.ihepda.techdebt.annotations.TechDebt;
+
 ### Step 3: Annotate the Code with Technical Debts
 
 Use the annotation to mark technical debts in your code. Here is an example:
 
-```
+```java
 @TechDebt(
     description = "Refactor this method to improve readability",
     date = "2024-10-28",
@@ -67,89 +70,90 @@ public void someMethod() {
 
 You can use a single annotation or multiple annotation
 
-```
+```java
 @TechDebt(severity = Severity.MAJOR, comment = "classe")
 @TechDebt(severity = Severity.MINOR, comment = "minor class", effort = Effort.MASSIVE, type = Type.PERFORMANCE)
 public class MyClass {
 ```
+
 You can mark issues in statement blocks, unfortunately you can't use annotation in statement but **java-tech-debs** supply a method to mark some statement blocks using the *refComment* attribute.
 With the *refComment* you can mark a comment as a technical debt comment that the system will use to identify the location of the block to mark, in the example the *refComment="AX"* indicates a block that starts with a comment @TD-AX and ends with a line comment #TD-AX (AX is the code).
 
 Important is: the start block is a multi-line java comment (not javadoc comment) with the first line that contains the block code @TD-{code}, all comment below this row will be used to set the *comment* attribute in the tecnical debt information.
 The end of the block must be a single line comment starts with #TD-{code}
 
+```java
+ @TechDebt(
+   comment = "strange method2", 
+   author = "CDA", 
+   severity = TechDebt.Severity.TRIVIAL, 
+   type = Type.MAINTAINABILITY, 
+   effort = Effort.MASSIVE,
+   refComment = "AX")
+ public void execute2(Map<String, Object> params) {
+  @TechDebt(comment = "bad variable", author = "me", severity = TechDebt.Severity.MAJOR)
+  var a = 10;
+  var b = 20;
+
+  /*
+   * @TD-AX 
+   * This is a test comment for AX
+   * 
+   * to check
+   */
+  this.execute(null);
+  // #TD-AX
+  this.execute(null);
+
+ }
+
 ```
-	@TechDebt(
-			comment = "strange method2", 
-			author = "CDA", 
-			severity = TechDebt.Severity.TRIVIAL, 
-			type = Type.MAINTAINABILITY, 
-			effort = Effort.MASSIVE,
-			refComment = "AX")
-	public void execute2(Map<String, Object> params) {
-		@TechDebt(comment = "bad variable", author = "me", severity = TechDebt.Severity.MAJOR)
-		var a = 10;
-		var b = 20;
-
-		/*
-		 * @TD-AX 
-		 * This is a test comment for AX
-		 * 
-		 * to check
-		 */
-		this.execute(null);
-		// #TD-AX
-		this.execute(null);
-
-	}
-
-```
-
-
 
 ### Step 4: Generate Reports
 
 Once you have annotated the code, you can generate reports to monitor and manage technical debts. Run the Maven command to generate the report:
 
-	mvn io.github.ihepda:tech-debt-maven-plugin:report
+ mvn io.github.ihepda:tech-debt-maven-plugin:report
 
 or
 
-	mvn site
+ mvn site
 
 This command will analyze the annotations in your code and generate a detailed report of the technical debts.
 
 Or, you can add the plugin in the *reporting* section of your *pom.xml*
 
-```
-	<reporting>
-		<plugins>
-			<plugin>
-		        <groupId>io.github.ihepda</groupId>
-		        <artifactId>tech-debt-maven-plugin</artifactId>
-		  			<version>1.0.1</version>
-				
-			</plugin>
-		</plugins>
-	</reporting>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.12.1</version>
+```xml
+ <reporting>
+  <plugins>
+   <plugin>
+          <groupId>io.github.ihepda</groupId>
+          <artifactId>tech-debt-maven-plugin</artifactId>
+       <version>1.0.1</version>
+    
+   </plugin>
+  </plugins>
+ </reporting>
+ <build>
+  <plugins>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-site-plugin</artifactId>
+    <version>3.12.1</version>
 
-			</plugin>
-		</plugins>
-	</build>
+   </plugin>
+  </plugins>
+ </build>
 ```
 
 #### Filtering
-issue: https://github.com/ihepda/java-tech-debt/issues/6
+
+issue: [Add report filter](https://github.com/ihepda/java-tech-debt/issues/6)
 
 The report permits to set a filter in order to match only interested technical debts, for example technical debts sith a severity MAJOR or CRITICAL.
 
 The filter is an 'SQL like filter', this is, you can use:
+
 * common operators : =, !=, <=, <, >=, >
 * like operator with or without the not keyword
 * in operator with or without the not keyword
@@ -157,40 +161,85 @@ The filter is an 'SQL like filter', this is, you can use:
 * grouping expression with '(' and ')'
 
 Below an example
-```
+
+```txt
 comment like '%test%' and severity >= 'MAJOR' or author in ('CDA', 'LA')
 
 comment not like '%test%' and (severity = 'MAJOR' or author not in ('CDA', 'LA'))
 ```
+
 In order to activate the filter you have to add the *filter* configuration in the plugin
+
+```xml
+ <reporting>
+  <plugins>
+   <plugin>
+          <groupId>io.github.ihepda</groupId>
+          <artifactId>tech-debt-maven-plugin</artifactId>
+      <version>1.0.1</version>
+    <configuration>
+                       <filter>comment like '%test%'</filter>
+    </configuration>
+   </plugin>
+  </plugins>
+ </reporting>
+ <build>
+  <plugins>
+   <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-site-plugin</artifactId>
+    <version>3.12.1</version>
+
+   </plugin>
+  </plugins>
+ </build>
 ```
-	<reporting>
-		<plugins>
-			<plugin>
-		        <groupId>io.github.ihepda</groupId>
-		        <artifactId>tech-debt-maven-plugin</artifactId>
-		  		<version>1.0.1</version>
-				<configuration>
-                    			<filter>comment like '%test%'</filter>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.12.1</version>
 
-			</plugin>
-		</plugins>
-	</build>
+#### Blocking the build
+
+issue: [Blocking the build if there are techdebts](https://github.com/ihepda/java-tech-debt/issues/11)
+
+The maven plugin permits to block the build if same conditions are present. These conditions are defined
+using a filter configuration. Below an example of filter configuration.
+
+```xml
+<plugin>
+  <groupId>io.github.ihepda</groupId>
+  <artifactId>tech-debt-maven-plugin</artifactId>
+  <version>1.0.2-SNAPSHOT</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>check</goal>
+      </goals>
+      <configuration>
+        <filter>severity.major > 10</filter>
+      </configuration>
+    </execution>
+  </executions>
+</plugin>
 ```
 
+The query language availabel is represented below:
+![alt text](images/maven-plugin-filterql.svg)
 
-### Conclusion
-Annotating technical debts directly in the code with **java-tech-debt** helps keep the code clean and manageable. Following these steps will allow you to track technical debts and plan refactoring efforts in a more structured way.
+As identifier you can use:
+
+* ALL => Indicates all technical debts present in the project
+* SEVERITY.{severity value} => searches for all technical debts with a specific severity value
+* type.{type value} => searches for all technical debts with a specific type value
+
+In the query language you are free to use _AND_, _OR_ and parenthesis, in order to compose complex conditions.
+
+For example:
+
+```txt
+severity.major > 10 
+
+severity.major > 10 or type.security >=1
+
+all > 20 or (type.security > 0 and severity.trivial >0)
+```
 
 ## Examples
 
