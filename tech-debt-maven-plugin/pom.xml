@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>tech-debt-parent</artifactId>
 		<groupId>io.github.ihepda</groupId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tech-debt-maven-plugin</artifactId>
@@ -152,6 +152,27 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr4-maven-plugin</artifactId>
+				<version>4.13.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr4</goal>
+						</goals>
+						<configuration>
+							<visitor>true</visitor>
+							<outputDirectory>
+								${project.build.directory}/generated-sources/antlr4/io/github/ihepda/techdebt/maven/plugin/filter</outputDirectory>
+							<arguments>
+								<argument>-package</argument>
+								<argument>io.github.ihepda.techdebt.maven.plugin.filter</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
